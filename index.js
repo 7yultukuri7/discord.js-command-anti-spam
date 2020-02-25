@@ -11,7 +11,6 @@ const commandruncache = [
 ];
 const commandcount = [
   {
-    prefix: "test!",
     defultcountplus: 100,
     removecount: 80,
     warncount: 400,
@@ -33,11 +32,17 @@ setInterval(function() {
 //  console.log(JSON.stringify(commandruncache));
 //--------------------------------------------------
 }, commandcount[0].removetime);
+
+
+
 client.on("message", async message => {
+//BOTやDMを無視するやつ
   if (message.author.bot) return;
   if (message.channel.type == "dm") return;
+  
+  
   //command
-  const prefix = commandcount[0].prefix;
+  const prefix = "test!";
   const args = message.content
     .slice(prefix.length)
     .trim()
@@ -98,5 +103,12 @@ client.on("message", async message => {
       //warncount
       message.channel.send(commandcount[0].warnmessage);
     }
+  }
+  
+  
+//---ここから下にプログラムしないと、連投をされたときに反応してしまいます。--
+//普通にいつもどうりでOK!
+    if (command == "help") {
+    message.channel.send("OK!");
   }
 });
