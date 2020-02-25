@@ -39,6 +39,10 @@ setInterval(function() {
 
 
 client.on("message", async message => {
+//-----
+//---↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓--
+//-----
+ 
 //BOTやDMを無視するやつ
   if (message.author.bot) return;
   if (message.channel.type == "dm") return;
@@ -51,7 +55,11 @@ client.on("message", async message => {
     .trim()
     .split(/ +/g);
   const command = args.shift().toLowerCase();
-  //-----
+
+//-----
+//---↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑--
+//-----
+  
   if (command) {
     for (var i = 0; i < commandruncache.length; i++) {
       if (commandruncache[i].userid == message.author.id) {
@@ -108,9 +116,9 @@ client.on("message", async message => {
     }
   }
   
-  
+//-----
 //---ここから下にプログラムしないと、連投をされたときに反応してしまいます。--
-//普通にいつもどうりでOK!
+//普通にいつもどうりでOK!(たぶん。。。)
     if (command == "help") {
     message.channel.send("OK!");
   }
