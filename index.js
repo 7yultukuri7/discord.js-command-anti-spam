@@ -103,18 +103,6 @@ client.on("message", async message => {
       }
     }
   }
-  function commandrunprogram(i) {
-    commandruncache[i].count =
-      commandruncache[i].count + commandcount[0].defultcountplus;
-    if (commandcount[0].stopcount > commandruncache[i].count) {
-      //stopcount
-      //...反応しない
-      return;
-    } else if (commandcount[0].warncount > commandruncache[i].count) {
-      //warncount
-      message.channel.send(commandcount[0].warnmessage);
-    }
-  }
   
 //-----
 //---ここから下にプログラムしないと、連投をされたときに反応してしまいます。--
