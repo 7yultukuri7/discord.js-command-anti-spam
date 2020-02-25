@@ -1,4 +1,7 @@
-
+//----
+//   const prefix = "...(ここじゃないよ...)"; <== prefix 変えといて
+// const commandcount = [...(ここじゃないよ...)] <== 調整しといて
+//----
 const commandruncache = [
   {
     userid: "123456789012345678",
