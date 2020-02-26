@@ -27,8 +27,10 @@ setInterval(function() {
   for (var i = 0; i < commandruncache.length; i++) {
     commandruncache[i].count =
       commandruncache[i].count - commandcount[0].removecount;
+    //変更
     if (commandruncache[i].count < 0) {
       commandruncache.splice(i, 1);
+      var i = i - 1;
     }
   }
 //--------------------------------------------------
@@ -61,45 +63,52 @@ client.on("message", async message => {
 //-----
   
   if (command) {
-    for (var i = 0; i < commandruncache.length; i++) {
-      if (commandruncache[i].userid == message.author.id) {
-        //commandruncacheにuseridあった場合
-        if (commandcount[0].maxcount === null) {
-          //maxcountがnull
-          commandruncache[i].count =
-            commandruncache[i].count + commandcount[0].defultcountplus;
-          if (commandcount[0].stopcount < commandruncache[i].count) {
-            //stopcount
+    //変更
+    if (commandruncache.length == 0) {
+      commandruncache.push({
+        userid: message.author.id,
+        count: commandcount[0].defultcountplus
+      });
+    } else {
+      for (var i = 0; i < commandruncache.length; i++) {
+        if (commandruncache[i].userid == message.author.id) {
+          //commandruncacheにuseridあった場合
+          if (commandcount[0].maxcount === null) {
+            //maxcountがnull
+            commandruncache[i].count =
+              commandruncache[i].count + commandcount[0].defultcountplus;
+            if (commandcount[0].stopcount < commandruncache[i].count) {
+              //stopcount
+              //...反応しない
+              return;
+            } else if (commandcount[0].warncount < commandruncache[i].count) {
+              //warncount
+              message.channel.send(commandcount[0].warnmessage);
+            }
+          } else if (commandruncache[i].count < commandcount[0].maxcount) {
+            //maxcountがnumber
+            commandruncache[i].count =
+              commandruncache[i].count + commandcount[0].defultcountplus;
+            if (commandcount[0].stopcount < commandruncache[i].count) {
+              //stopcount
+              //...反応しない
+              return;
+            } else if (commandcount[0].warncount < commandruncache[i].count) {
+              //warncount
+              message.channel.send(commandcount[0].warnmessage);
+            }
+          } else {
+            //maxcountの上限を超えた場合
             //...反応しない
             return;
-          } else if (commandcount[0].warncount < commandruncache[i].count) {
-            //warncount
-            message.channel.send(commandcount[0].warnmessage);
           }
-        } else if (commandruncache[i].count < commandcount[0].maxcount) {
-          //maxcountがnumber
-          commandruncache[i].count =
-            commandruncache[i].count + commandcount[0].defultcountplus;
-          if (commandcount[0].stopcount < commandruncache[i].count) {
-            //stopcount
-            //...反応しない
-            return;
-          } else if (commandcount[0].warncount < commandruncache[i].count) {
-            //warncount
-            message.channel.send(commandcount[0].warnmessage);
-          }
-        } else {
-          //maxcountの上限を超えた場合
-          //...反応しない
-          return;
+        } else if (i + 1 == commandruncache.length) {
+          //commandruncacheにuseridない場合データを追加
+          commandruncache.push({
+            userid: message.author.id,
+            count: commandcount[0].defultcountplus
+          });
         }
-      } else if (i + 1 == commandruncache.length) {
-        //commandruncacheにuseridない場合データを追加
-        console.log(commandruncache);
-        commandruncache.push({
-          userid: message.author.id,
-          count: commandcount[0].defultcountplus
-        });
       }
     }
   }
